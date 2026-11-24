@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Departemen Bahasa Indonesia – Common Assessment Simulation</title>
+<style>
+:root{--bg:#eef3ff;--ink:#17233f;--muted:#687694;--blue:#4263eb;--purple:#7950f2;--cyan:#15aabf;--green:#2f9e44;--yellow:#f08c00;--red:#e03131;--card:rgba(255,255,255,.88)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 5%,#dbeafe,transparent 30%),radial-gradient(circle at 90% 20%,#e9d5ff,transparent 30%),linear-gradient(135deg,#f8fbff,#e9efff);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;border:0;border-radius:13px;padding:11px 16px;font-weight:700;transition:.18s}button:hover{transform:translateY(-1px);filter:brightness(1.03)}button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.primary{background:linear-gradient(135deg,var(--blue),var(--purple));color:white;box-shadow:0 8px 18px #4263eb38}.soft{background:#edf1ff;color:#3c50a3}.warn{background:#fff3bf;color:#8a5700}.danger{background:#fff0f0;color:#b42318}.success{background:#e6fcf5;color:#087f5b}
+.wrap{max-width:1240px;margin:auto;padding:24px}.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.4px}.logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(145deg,#4263eb,#9775fa);box-shadow:inset 3px 3px 8px #ffffff66,0 8px 18px #4263eb44;display:grid;place-items:center;color:#fff;font-size:22px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.tag{font-size:12px;color:#52617f;background:#fff;padding:7px 11px;border-radius:99px;border:1px solid #e4e9f5}
+.card{background:var(--card);border:1px solid #ffffffd9;border-radius:22px;padding:22px;box-shadow:0 14px 35px #273c7020,inset 0 1px #fff;backdrop-filter:blur(14px)}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:stretch}.hero h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:12px 0}.hero p{color:var(--muted);line-height:1.65}.orb{min-height:240px;border-radius:22px;background:linear-gradient(140deg,#4263eb,#7950f2 60%,#15aabf);color:white;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.orb:before,.orb:after{content:"";position:absolute;border-radius:50%;background:#ffffff20}.orb:before{width:230px;height:230px;right:-40px;top:-65px}.orb:after{width:140px;height:140px;left:-30px;bottom:-45px}.orbinner{z-index:1;text-align:center}.orbicon{font-size:72px;filter:drop-shadow(0 14px 8px #14235a55)}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:7px;color:#4a5877}.field input{width:100%;padding:13px 14px;border:1px solid #dce3f1;border-radius:12px;background:#fff;outline:none}.field input:focus{border-color:#748ffc;box-shadow:0 0 0 3px #748ffc25}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.pill{padding:8px 12px;border-radius:99px;background:#f1f4ff;color:#43558a;font-size:12px;font-weight:800}
+.exam{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}.side{align-self:start;position:sticky;top:12px}.timer{font-size:32px;font-weight:900;letter-spacing:1px}.timer.low{color:var(--yellow)}.timer.urgent{color:var(--red);animation:pulse 1s infinite}@keyframes pulse{50%{opacity:.45}}
+.progress{height:9px;border-radius:20px;background:#e9edf7;overflow:hidden;margin:10px 0}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));width:0}
+.navgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}.qnav{padding:10px 0;border-radius:10px;background:#edf0f6;color:#53617b}.qnav.answered{background:#d3f9d8;color:#176b2c}.qnav.doubt{background:#fff3bf;color:#8a5700}.qnav.skipped{background:#ffe3e3;color:#b42318}.qnav.current{outline:3px solid #748ffc;outline-offset:1px}
+.legend{display:flex;flex-wrap:wrap;gap:9px;font-size:11px;color:var(--muted);margin-top:12px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;background:#cbd2df}.dot.g{background:#69db7c}.dot.y{background:#ffd43b}.dot.r{background:#ff8787}
+.qhead{display:flex;justify-content:space-between;gap:12px;align-items:center}.qtitle{font-size:14px;color:#66738d;font-weight:800}.stimulus{white-space:pre-line;background:#f7f9ff;border:1px solid #e8edfa;border-radius:15px;padding:16px;line-height:1.65;margin:15px 0;color:#283653}
+.question{font-size:18px;font-weight:800;line-height:1.5;margin:15px 0}.options{display:grid;gap:10px}.opt{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #e2e8f5;border-radius:14px;background:#fff;cursor:pointer;line-height:1.5}.opt:hover{border-color:#91a7ff;background:#f8f9ff}.opt.selected{border:2px solid #5c7cfa;background:#eef2ff;padding:13px}.letter{width:27px;height:27px;flex:0 0 27px;border-radius:9px;background:#edf1ff;color:#4057b2;display:grid;place-items:center;font-weight:900}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.between{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:20px}
+.statement{padding:14px;border:1px solid #e2e8f5;border-radius:14px;margin:10px 0;background:white}.statement p{margin:0 0 10px;line-height:1.5}.tf{display:flex;gap:8px}.tf button{flex:1}.tf button.sel{background:#4263eb;color:white}
+.small{font-size:12px;color:var(--muted);line-height:1.5}.hidden{display:none!important}.warningbox{background:#fff4e6;color:#9a4d00;padding:12px 14px;border-radius:12px;font-size:13px;margin-top:12px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#f6f8ff;border-radius:15px;padding:14px}.stat b{display:block;font-size:25px}.reviewitem{border:1px solid #e4e9f5;border-radius:15px;padding:16px;margin:12px 0;background:white}.correct{color:#087f5b}.incorrect{color:#c92a2a}.reviewitem p{line-height:1.55}.bar{height:10px;background:#e9edf7;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#4263eb,#15aabf)}
+footer{padding:22px;text-align:center;color:#7b879e;font-size:12px}
+@media(max-width:800px){.wrap{padding:14px}.hero{grid-template-columns:1fr}.exam{grid-template-columns:1fr}.side{position:static}.statgrid{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.top{align-items:flex-start}.qhead{align-items:flex-start;flex-direction:column}}
+
+/* iPad landscape: keep the question, stimulus and answers in one viewport */
+@media (min-width: 801px) and (orientation: landscape) {
+  body.exam-active { overflow: hidden; }
+  body.exam-active .wrap { max-width: 100%; padding: 10px 14px; }
+  body.exam-active > .wrap > header,
+  body.exam-active > .wrap > footer { display: none; }
+  body.exam-active #exam {
+    height: calc(100dvh - 20px);
+    min-height: 0;
+    grid-template-columns: 218px minmax(0,1fr);
+    gap: 12px;
+    align-items: stretch;
+  }
+  body.exam-active #exam > .side,
+  body.exam-active #exam > main { min-height: 0; height: 100%; }
+  body.exam-active #exam > .side { position: static; }
+  body.exam-active #exam > .side > .card {
+    height: 100%; padding: 13px; border-radius: 16px; overflow: hidden;
+  }
+  body.exam-active .timer { font-size: 27px; }
+  body.exam-active .navgrid { grid-template-columns: repeat(5,1fr); gap: 5px; margin-top: 8px; }
+  body.exam-active .qnav { padding: 7px 0; font-size: 13px; }
+  body.exam-active .legend { gap: 6px; font-size: 10px; margin-top: 8px; }
+  body.exam-active #answerArea:has(.statement) { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
+  body.exam-active #exam > main {
+    padding: 15px 18px; border-radius: 16px;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  body.exam-active .qhead h2 { font-size: 19px; }
+  body.exam-active .stimulus {
+    padding: 9px 12px; margin: 8px 0; font-size: 13px;
+    line-height: 1.35; max-height: 30%; overflow: auto;
+  }
+  body.exam-active .question { font-size: 16px; line-height: 1.3; margin: 8px 0; }
+  body.exam-active #answerArea { min-height: 0; }
+  body.exam-active .options { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
+  body.exam-active .opt { padding: 8px 10px; gap: 8px; font-size: 13px; line-height: 1.3; border-radius: 11px; }
+  body.exam-active .opt.selected { padding: 7px 9px; }
+  body.exam-active .letter { width: 23px; height: 23px; flex-basis: 23px; }
+  body.exam-active .statement { padding: 8px 10px; margin: 0; font-size: 13px; }
+  body.exam-active .statement p { margin-bottom: 6px; line-height: 1.3; }
+  body.exam-active .tf button { padding: 7px 10px; }
+  body.exam-active .actions { margin-top: auto; padding-top: 8px; gap: 6px; }
+  body.exam-active .actions button, body.exam-active .between button { padding: 8px 12px; font-size: 12px; }
+  body.exam-active .between { margin-top: 8px; }
+}
+@media (min-width: 801px) and (orientation: landscape) and (max-height: 700px) {
+  body.exam-active #exam { height: calc(100dvh - 12px); }
+  body.exam-active .stimulus { max-height: 25%; font-size: 12px; }
+  body.exam-active .opt { font-size: 12px; padding: 6px 8px; }
+  body.exam-active .question { font-size: 15px; }
+}
+
+/* Readability pass: larger type on iPad landscape */
+@media (min-width: 801px) and (orientation: landscape) {
+  body.exam-active #exam > main { padding: 17px 22px; }
+  body.exam-active .qhead h2 { font-size: 22px; }
+  body.exam-active .stimulus {
+    font-size: 16px !important;
+    line-height: 1.45;
+    padding: 11px 14px;
+    max-height: 29%;
+  }
+  body.exam-active .question {
+    font-size: 20px !important;
+    line-height: 1.4;
+    margin: 10px 0 12px;
+  }
+  body.exam-active .opt {
+    font-size: 16px !important;
+    line-height: 1.4;
+    padding: 11px 13px;
+    gap: 10px;
+  }
+  body.exam-active .letter {
+    width: 27px; height: 27px; flex-basis: 27px;
+    font-size: 14px;
+  }
+  body.exam-active .statement {
+    font-size: 16px !important;
+    line-height: 1.4;
+    padding: 10px 12px;
+  }
+  body.exam-active .statement p { line-height: 1.4; }
+  body.exam-active .tf button,
+  body.exam-active .actions button,
+  body.exam-active .between button { font-size: 14px; padding: 10px 14px; }
+  body.exam-active .navgrid { gap: 7px; }
+  body.exam-active .qnav { font-size: 15px; padding: 9px 0; }
+  body.exam-active .legend { font-size: 12px; }
+}
+@media (min-width: 801px) and (orientation: landscape) and (max-height: 700px) {
+  body.exam-active .stimulus { font-size: 14px !important; max-height: 24%; }
+  body.exam-active .question { font-size: 18px !important; }
+  body.exam-active .opt,
+  body.exam-active .statement { font-size: 14px !important; }
+}
+@media print{body{background:white}.no-print{display:none!important}.wrap{max-width:none;padding:0}.card,.reviewitem{box-shadow:none;border:1px solid #ddd;break-inside:avoid}.print-only{display:block!important}}
+</style></head>
+<body><div class="wrap">
+<header class="top"><div class="brand"><div class="logo">E</div><div>Departemen Bahasa Indonesia <div class="small">COMMON ASSESSMENT SIMULATION</div></div></div><span class="tag">BAHASA INDONESIA · KELAS VII</span></header>
+
+<section id="intro" class="hero">
+ <div class="card">
+  <span class="pill">DIGITAL ASSESSMENT EXPERIENCE</span>
+  <h1>Latihan Common Assessment<br><span style="color:#5c7cfa">Teks Prosedur</span></h1>
+  <p>Kerjakan 20 soal dengan teliti. Baca setiap stimulus, kelola waktu, dan gunakan penanda ragu-ragu untuk meninjau kembali jawabanmu.</p>
+  <div class="meta"><span class="pill">20 Soal</span><span class="pill">30 Menit</span><span class="pill">Kurikulum Merdeka</span></div>
+  <div class="grid2">
+   <div class="field"><label>Nama Siswa</label><input id="studentName" placeholder="Masukkan nama lengkap"></div>
+   <div class="field"><label>NIS / Student ID</label><input id="studentId" placeholder="Masukkan NIS"></div>
+   <div class="field"><label>Kelas</label><input id="studentClass" placeholder="Contoh: VII A"></div>
+   <div class="field"><label>Sekolah</label><input id="school" placeholder="Nama sekolah"></div>
+  </div>
+  <div class="warningbox">Pastikan identitas benar. Timer 30 menit dimulai setelah tombol mulai ditekan. Jawaban tersimpan otomatis pada browser ini. Aktivitas pindah tab dan keluar fullscreen dicatat beserta waktu kejadiannya. Browser tidak dapat menjamin pengawasan penuh.</div>
+  <div style="margin-top:18px"><button class="primary" id="startBtn">START ASSESSMENT →</button></div>
+ </div>
+ <div class="orb"><div class="orbinner"><div class="orbicon">📚</div><h2>Ready to Challenge Yourself?</h2><p style="color:#eef2ff">Think · Choose · Review · Improve</p></div></div>
+</section>
+
+<section id="exam" class="exam hidden">
+ <aside class="side">
+  <div class="card">
+   <div class="small">SISA WAKTU</div><div id="timer" class="timer">30:00</div>
+   <div class="progress"><i id="progressBar"></i></div><div class="small" id="progressText">0 dari 20 soal dijawab</div>
+   <hr style="border:0;border-top:1px solid #e8edf5;margin:16px 0">
+   <b>Navigasi Soal</b><div class="navgrid" id="navgrid"></div>
+   <div class="legend"><span><i class="dot"></i>Belum</span><span><i class="dot g"></i>Terjawab</span><span><i class="dot y"></i>Ragu</span><span><i class="dot r"></i>Skip</span></div>
+   <hr style="border:0;border-top:1px solid #e8edf5;margin:16px 0">
+   <div class="small">EXAM INTEGRITY</div><b id="violationCount">0 pelanggaran tercatat</b>
+   <div class="small">Perpindahan tab, waktu di luar tab, dan keluar fullscreen dicatat otomatis.</div><div id="integrityLive" class="small" aria-live="polite" style="margin-top:6px;color:#9a4d00"></div>
+   <button class="danger" style="width:100%;margin-top:16px" id="finishBtn">FINISH ASSESSMENT</button>
+  </div>
+ </aside>
+ <main class="card">
+  <div class="qhead"><div><div class="qtitle" id="qtype">QUESTION 1 OF 20</div><h2 style="margin:5px 0">Try Out Common Assessment</h2></div><span class="pill" id="statusPill">BELUM DIJAWAB</span></div>
+  <div id="stimulus" class="stimulus hidden"></div>
+  <div id="questionText" class="question"></div>
+  <div id="answerArea"></div>
+  <div class="actions">
+   <button class="warn" id="doubtBtn">⚑ Tandai Ragu-ragu</button>
+   <button class="danger" id="skipBtn">Lewati Soal</button>
+   <button class="soft" id="clearBtn">Hapus Jawaban</button>
+  </div>
+  <div class="between"><button class="soft" id="prevBtn">← Sebelumnya</button><button class="primary" id="nextBtn">Simpan & Berikutnya →</button></div>
+ </main>
+</section>
+
+<section id="summary" class="card hidden">
+ <h1>Periksa Jawabanmu</h1><p class="small">Pastikan semua jawaban sudah sesuai sebelum mengumpulkan asesmen.</p>
+ <div class="statgrid" id="summaryStats"></div>
+ <div class="actions"><button class="soft" id="backBtn">Kembali ke Soal</button><button class="primary" id="submitBtn">SUBMIT ASSESSMENT</button></div>
+</section>
+
+<section id="result" class="hidden">
+ <div class="card">
+  <div class="qhead"><div><span class="pill">ASSESSMENT COMPLETED</span><h1 style="margin-bottom:4px">Hasil Latihan</h1><p class="small" id="resultIdentity"></p></div><div style="text-align:center"><div id="score" style="font-size:54px;font-weight:950;color:#4263eb">0</div><b>Nilai Akhir</b></div></div>
+  <div class="statgrid" id="resultStats"></div>
+  <h2>Ringkasan Hasil</h2><div class="bar"><i id="scoreBar"></i></div>
+  <p class="small" id="durationText"></p>
+  <div class="actions no-print"><button class="primary" id="downloadBtn">⬇ DOWNLOAD RESULT & REVIEW (PDF)</button><button class="soft" id="restartBtn">Mulai Sesi Baru</button></div>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <h2>Question Review</h2><p class="small">Tinjau jawaban, kunci, dan pembahasan untuk setiap nomor.</p><div id="reviewList"></div>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <h2>Learning Insights</h2><div id="insights"></div>
+  <h2>Exam Integrity Report</h2><div id="integrityReport"></div>
+ </div>
+</section>
+<footer>Departemen Bahasa Indonesia · Common Assessment Simulation · Materi Teks Prosedur</footer>
+</div>
+<script>
+const Q=[
+{t:"Informasi dalam teks yang menyebabkan kegagalan Naura beserta buktinya adalah ...",s:"Cara Membuat Kertas Daur Ulang\nAlat: baskom, blender, dan bingkai saringan.\nBahan: kertas bekas dan air.\n1. Sobek kertas bekas menjadi potongan kecil, lalu rendam dalam baskom berisi air.\n2. Masukkan rendaman kertas ke dalam blender, lalu haluskan menjadi bubur kertas.\n3. Tuang bubur kertas ke bingkai saringan, lalu ratakan.\n4. Pindahkan lembaran ke atas kain flanel, lalu jemur sampai kering.\nNaura merendam sobekan kertas selama lima menit saja. Bubur kertas yang ia blender masih kasar, sehingga lembaran yang jadi bergumpal dan mudah sobek.",o:["Urutan langkah keliru, terbukti dari penjemuran yang mendahului pencetakan lembaran.","Takaran air tidak disebutkan, terbukti dari air pada langkah 1 tanpa ukuran.","Lama perendaman tidak disebutkan, terbukti dari langkah 1 yang hanya memuat kata rendam.","Alat kurang lengkap, terbukti dari kain flanel pada langkah 4 yang tidak tercantum dalam daftar alat."],a:"C",e:"Penyebab kegagalan adalah lama perendaman yang tidak disebutkan sehingga Naura merendam terlalu singkat dan kertas belum lunak. Opsi A salah karena penjemuran dilakukan setelah lembaran dicetak. Opsi B dan D bukan penyebab kegagalan dalam kasus ini.",ind:"Menganalisis informasi penyebab kegagalan dan bukti teks"},
+{t:"Manfaat utama kartu panduan tersebut bagi Kenzo dalam situasi itu adalah ...",s:"Saat kemah sekolah, tangan Bima tersengat lebah dan mulai membengkak. Kenzo, teman satu tendanya, panik karena belum pernah menolong orang yang tersengat. Untungnya, di dalam kotak P3K kelompok mereka terselip kartu panduan berjudul “Cara Menolong Korban Sengatan Lebah” yang memuat langkah-langkah bernomor.",o:["Menuntun Kenzo menolong Bima dengan tindakan yang tepat dan berurutan.","Meyakinkan Kenzo agar selalu membawa kotak P3K setiap kali berkemah.","Menceritakan pengalaman peserta kemah lain yang pernah tersengat lebah.","Menjelaskan alasan lebah menyengat dan mengapa sengatannya terasa sakit."],a:"A",e:"Fungsi teks prosedur adalah memandu pembaca bertindak dengan langkah yang benar, termasuk saat keadaan mendesak.",ind:"Memahami manfaat teks prosedur dalam situasi sehari-hari"},
+{t:"Bukti yang menunjukkan bahwa langkah-langkah dalam kutipan tersebut tersusun berurutan adalah ...",s:"Cara Membuat Stempel dari Kentang\n1. Potong kentang menjadi dua bagian yang sama besar.\n2. Gambar pola sederhana pada permukaan potongan kentang, lalu ukir tepi gambar sedalam setengah sentimeter.\n3. Oleskan cat pada permukaan kentang yang menonjol.\n4. Tekan kentang pada kertas, kemudian angkat perlahan.",o:["Penyebutan ukuran, yaitu setengah sentimeter, yang menjelaskan kedalaman ukiran.","Penomoran 1 sampai 4 serta kata lalu dan kemudian yang menandai tindakan lanjutan.","Penggunaan kata teknis, seperti ukir dan oleskan, di sebagian langkah.","Penyebutan kata perlahan yang menerangkan cara mengangkat kentang."],a:"B",e:"Keberurutan tampak dari penomoran dan penanda temporal lalu dan kemudian. Ukuran menunjukkan ketepatan, kata teknis menunjukkan kekhasan kosakata, dan perlahan menerangkan cara bertindak.",ind:"Menganalisis ciri keberurutan langkah"},
+{t:"Teks yang termasuk teks prosedur beserta alasannya adalah ...",s:"Teks 1\nKipas angin bekerja dengan mengubah energi listrik menjadi gerak putar. Ketika arus listrik mengalir, motor di bagian tengah berputar dan menggerakkan baling-baling. Putaran baling-baling mendorong udara sehingga angin terasa di depan kipas.\n\nTeks 2\nPastikan kipas angin dalam keadaan mati sebelum dibersihkan. Cabut kabel dari stopkontak, lalu lepas kisi pelindung. Jangan menyentuh baling-baling dengan tangan basah. Bersihkan debu dengan kain lembap.",o:["Teks 1, karena menjelaskan bagian kipas angin dan cara kerjanya.","Teks 1, karena menyajikan urutan peristiwa saat kipas angin menyala.","Teks 2, karena menjelaskan sebab munculnya angin dari kipas angin.","Teks 2, karena memuat kalimat perintah dan larangan bagi pembaca."],a:"D",e:"Teks 2 adalah prosedur membersihkan kipas dengan kalimat perintah (Cabut, lepas, Bersihkan) dan larangan (Jangan menyentuh). Teks 1 merupakan eksplanasi proses kerja kipas.",ind:"Membedakan teks prosedur dari teks lain"},
+{t:"Tujuan yang ingin dicapai pembaca setelah mempraktikkan teks tersebut adalah ...",s:"Cara Membuat Telepon Kaleng\nAlat dan bahan: Dua kaleng bekas yang bersih, paku, palu, benang kasur sepanjang lima meter, dan dua batang lidi pendek.\nLangkah pembuatan:\n1. Lubangi dasar kedua kaleng di bagian tengah dengan paku dan palu.\n2. Masukkan ujung benang ke lubang kaleng dari luar ke dalam.\n3. Ikat ujung benang pada lidi di dalam kaleng agar tidak terlepas.\n4. Lakukan hal yang sama pada kaleng kedua dengan ujung benang yang lain.\nCara menggunakan: Berdirilah berjauhan dengan temanmu sampai benang tegang. Satu orang berbicara ke dalam kaleng, sedangkan orang lain menempelkan kaleng ke telinganya. Jangan biarkan benang mengendur karena suara tidak akan terdengar.",o:["Menjadikan kaleng bekas sebagai wadah penyimpan benang dan lidi.","Membuat alat komunikasi sederhana dari kaleng bekas dan benang.","Mengetahui cara kerja telepon seluler yang dipakai banyak orang.","Membuat berbagai alat musik sederhana dari barang bekas di rumah."],a:"B",e:"Judul, daftar bahan, langkah pembuatan, dan cara menggunakan mengarah pada pembuatan alat komunikasi sederhana.",ind:"Menentukan tujuan teks prosedur"},
+{t:"Gagasan utama bagian Cara menggunakan dalam teks tersebut adalah ...",s:"Cara Membuat Telepon Kaleng\nCara menggunakan: Berdirilah berjauhan dengan temanmu sampai benang tegang. Satu orang berbicara ke dalam kaleng, sedangkan orang lain menempelkan kaleng ke telinganya. Jangan biarkan benang mengendur karena suara tidak akan terdengar.",o:["Cara memakai telepon kaleng agar suara dapat terdengar.","Jarak antara pembicara dan pendengar yang harus berjauhan.","Larangan membiarkan benang mengendur saat telepon dipakai.","Posisi kaleng yang ditempelkan pada telinga pendengar."],a:"A",e:"Bagian tersebut merangkum cara memakai telepon kaleng secara utuh. Opsi B, C, dan D hanya rincian pendukung.",ind:"Menentukan gagasan utama bagian teks prosedur"},
+{t:"Kutipan tersebut merupakan bagian teks prosedur yang disebut ...",s:"Kardus sepatu bekas\nGunting\nLem kertas\nKertas kado\nPita satin",o:["Tujuan","Langkah-langkah","Alat dan bahan","Penutup"],a:"C",e:"Daftar benda yang disiapkan sebelum mengerjakan sesuatu adalah bagian alat dan bahan.",ind:"Mengidentifikasi struktur teks prosedur"},
+{t:"Urutan langkah yang logis berdasarkan petunjuk dalam kalimat adalah ...",s:"Cara Mencuci Sepatu Kain (langkah-langkah diacak)\n(1) Sikat sepatu dengan air sabun sampai noda hilang.\n(2) Pertama, lepaskan tali dan sol dalam sepatu.\n(3) Setelah bersih, bilas sepatu dengan air mengalir.\n(4) Keringkan sepatu di tempat teduh yang berangin.\n(5) Sebelum disikat dengan air sabun, bersihkan debu pada permukaan sepatu dengan sikat kering.",o:["(2) - (1) - (5) - (3) - (4)","(5) - (2) - (1) - (3) - (4)","(2) - (5) - (3) - (1) - (4)","(2) - (5) - (1) - (3) - (4)"],a:"D",e:"Petunjuknya: Pertama (2); sebelum disikat (5 sebelum 1); setelah bersih (3 setelah 1); pengeringan (4) terakhir. Urutan: 2-5-1-3-4.",ind:"Menganalisis urutan langkah"},
+{t:"Alat yang dibutuhkan untuk melaksanakan langkah 1 dan 2 tetapi belum tercantum dalam daftar alat dan bahan adalah ...",s:"Cara Membuat Sambal Bawang\nAlat dan bahan: kompor, cobek, ulekan, 10 siung bawang putih, 8 buah cabai rawit, 1 sendok teh garam, dan 3 sendok makan minyak goreng.\n1. Goreng bawang putih dan cabai rawit dalam minyak panas selama dua menit.\n2. Angkat, tiriskan, lalu pindahkan ke dalam cobek.\n3. Tambahkan garam, lalu ulek sampai halus.\n4. Sajikan sambal dalam mangkuk kecil.",o:["Wajan dan ulekan","Wajan dan serok penyaring","Kompor dan serok penyaring","Wajan dan mangkuk kecil"],a:"B",e:"Langkah 1 membutuhkan wajan, sedangkan langkah 2 membutuhkan serok penyaring. Ulekan dan kompor sudah tercantum. Mangkuk kecil baru dibutuhkan pada langkah 4.",ind:"Menganalisis kelengkapan alat dan bahan"},
+{t:"Kalimat perintah dalam kutipan tersebut adalah ...",s:"Cara Menyimpan Roti Tawar\nRoti tawar mudah berjamur jika disimpan sembarangan. Masukkan roti ke dalam wadah kedap udara. Wadah itu bisa disimpan di rak dapur. Roti tawar disukai karena rasanya lembut.",o:["Masukkan roti ke dalam wadah kedap udara.","Roti tawar mudah berjamur jika disimpan sembarangan.","Wadah itu bisa disimpan di rak dapur.","Roti tawar disukai karena rasanya lembut."],a:"A",e:"Kalimat perintah diawali kata kerja yang menyuruh pembaca bertindak, yaitu Masukkan. Kalimat lain berupa pernyataan.",ind:"Mengidentifikasi kalimat perintah"},
+{t:"Pernyataan yang tepat tentang kata kerja perintah dalam kutipan tersebut adalah ...",s:"Sapu lantai dari sudut ruangan menuju pintu, lalu kumpulkan debu ke dalam pengki. Buang isinya ke tempat sampah.",o:["Pengki merupakan kata kerja perintah yang menyuruh pembaca membersihkan lantai.","Sudut merupakan kata kerja perintah yang menyatakan posisi awal menyapu lantai.","Kumpulkan merupakan kata kerja perintah yang menyuruh pembaca memusatkan debu ke pengki.","Isinya merupakan kata kerja perintah yang menyatakan benda yang harus dibuang."],a:"C",e:"Kumpulkan adalah kata kerja dasar yang menyatakan tindakan yang harus dilakukan pembaca. Pengki, sudut, dan isinya adalah kata benda.",ind:"Mengidentifikasi kata kerja perintah"},
+{t:"Konjungsi temporal yang menandai urutan langkah dalam kutipan tersebut adalah ...",s:"Pegang bola basket dengan kedua tangan di depan dada. Kemudian, tekuk lutut dan dorong bola ke arah ring. Perhatikan lintasan bola.",o:["dan","ke arah","di depan","kemudian"],a:"D",e:"Kemudian menandai tindakan sesudah langkah sebelumnya. Kata dan menyatakan penjumlahan, sedangkan ke arah dan di depan adalah kata depan.",ind:"Mengidentifikasi konjungsi temporal"},
+{t:"Makna kata teknis menyetem dalam kutipan tersebut adalah ...",s:"Menyetem senar gitar dilakukan dengan memetik senar keenam, lalu memutar kunci penyetel sampai nada senar sama dengan nada acuan dari aplikasi tuner. Ulangi cara yang sama pada senar kelima dan seterusnya.",o:["Mengganti senar lama dengan senar yang baru.","Menyesuaikan tinggi rendah nada senar dengan nada acuan.","Membersihkan senar dari debu dan karat.","Memetik senar secara cepat dan berulang."],a:"B",e:"Konteks kalimat menyebut memutar kunci penyetel sampai nada senar sama dengan nada acuan, yaitu menyesuaikan tinggi rendah nada senar.",ind:"Memahami makna kata teknis"},
+{t:"Informasi yang paling penting dan tidak boleh dilewatkan pada langkah 1 agar pengisian daya aman adalah ...",s:"Cara Mengisi Daya Ponsel dengan Aman\n1. Colokkan pengisi daya ke stopkontak. Pastikan tangan dalam keadaan kering saat mencolok. Stopkontak di dekat meja belajar biasanya paling sering dipakai. Kepala pengisi daya berwarna putih lebih mudah ditemukan.\n2. Sambungkan kabel ke ponsel, lalu letakkan ponsel di permukaan yang keras dan datar. Hindari menaruhnya di atas kasur karena panas sulit keluar.\n3. Cabut pengisi daya setelah baterai terisi penuh.\n4. Gulung kabel dengan longgar dan simpan di tempat kering.",o:["Tangan dalam keadaan kering saat mencolokkan pengisi daya.","Stopkontak di dekat meja belajar yang paling sering dipakai.","Kepala pengisi daya berwarna putih yang mudah ditemukan.","Ponsel diletakkan di permukaan yang keras dan datar."],a:"A",e:"Tangan yang kering adalah syarat keselamatan pada langkah 1. Lokasi stopkontak dan warna pengisi daya hanya keterangan tambahan, sedangkan permukaan keras dan datar adalah informasi langkah 2.",ind:"Membedakan informasi penting dan pendukung"},
+{t:"Simpulan yang paling tepat merangkum isi dan urutan prosedur dalam teks tersebut adalah ...",s:"Cara Menyeberang Jalan dengan Aman\n1. Berhentilah di tepi jalan, di dekat zebra cross atau rambu penyeberangan.\n2. Tengok ke kanan dan ke kiri sampai kendaraan terlihat berhenti atau berada jauh dari tempatmu.\n3. Angkat tangan sebagai isyarat agar pengemudi tahu bahwa kamu akan menyeberang.\n4. Seberangi jalan dengan berjalan, bukan berlari, dan tetap waspada.\n5. Jangan menggunakan ponsel selama menyeberang.",o:["Menyeberang dengan aman dilakukan dengan berlari secepat mungkin agar tidak menghambat kendaraan.","Pejalan kaki baru boleh menyeberang setelah semua kendaraan hilang dari jalan.","Menyeberang aman dilakukan dengan berhenti di tepi, memeriksa kanan dan kiri, memberi isyarat, lalu berjalan tanpa ponsel.","Isyarat tangan hanya diperlukan jika tidak ada zebra cross di dekat tempat menyeberang."],a:"C",e:"Opsi C merangkum seluruh tahapan secara berurutan sesuai teks. Opsi A bertentangan dengan langkah 4, opsi B menggeneralisasi langkah 2 (kendaraan cukup terlihat berhenti atau jauh), dan opsi D bertentangan dengan langkah 3 karena isyarat tangan berlaku pada setiap penyeberangan.",ind:"Menentukan simpulan yang paling tepat"},
+{t:"Pilihlah pernyataan yang benar tentang ciri teks tersebut! (Jawaban benar lebih dari satu.)",s:"Cara Membuat Bingkai Foto dari Stik Es Krim\nTujuan: Membuat bingkai foto yang kokoh dan menarik dari bahan bekas.\nAlat dan bahan: stik es krim, lem kayu, cat warna, kuas, dan selembar foto.\n1. Susun empat stik es krim membentuk persegi, lalu rekatkan ujung-ujungnya dengan lem kayu.\n2. Biarkan lem mengering selama 15 menit.\n3. Warnai bingkai dengan cat kesukaanmu, lalu jemur sampai kering.\n4. Rekatkan foto di bagian belakang bingkai.",multi:true,o:["Teks bertujuan menghibur pembaca melalui cerita pengalaman penulis membuat bingkai.","Langkah-langkah tersusun berurutan sehingga bingkai dapat dibuat tahap demi tahap.","Teks memuat pendapat penulis tentang bingkai foto yang paling indah dilihat.","Bahasa teks jelas dan langsung, misalnya kalimat perintah Susun stik dan Rekatkan foto."],a:["B","D"],e:"B benar karena langkah tersusun berurutan. D benar karena bahasa jelas dan langsung dengan kalimat perintah. A salah karena tujuan teks memberi petunjuk, bukan menghibur. C salah karena teks tidak memuat pendapat penulis.",ind:"Mengidentifikasi ciri teks prosedur"},
+{t:"Pilihlah pasangan kata untuk mengisi rumpang (1) pada langkah 3 dan rumpang (2) pada langkah 4 agar urutan langkah logis! (Jawaban benar lebih dari satu.)",s:"Cara Mendirikan Tenda Kemah\n1. Bentangkan alas tenda di tanah yang rata dan bebas dari batu.\n2. Pasang kerangka tiang ke dalam lengan tenda sampai kain tenda terangkat.\n3. (1) ........................, tancapkan pasak di keempat sudut tenda dan ikat tali penahan.\n4. (2) ........................, pasang kain pelindung hujan di atas tenda, lalu rapikan.",multi:true,o:["(1) Sebelumnya; (2) Setelah tenda berdiri kokoh","(1) Selanjutnya; (2) Setelah tenda berdiri kokoh","(1) Setelah itu; (2) Begitu tali penahan terikat","(1) Setelah itu; (2) Sebelum pasak ditancapkan"],a:["B","C"],e:"Rumpang (1) harus menandai tindakan sesudah langkah 2, bukan Sebelumnya. Rumpang (2) harus menandai tindakan sesudah pasak dan tali dipasang. Karena itu pasangan B dan C logis.",ind:"Memilih konjungsi temporal sesuai urutan"},
+{t:"Pilihlah informasi penting yang harus diperhatikan agar prosedur berhasil melindungi siswa! (Jawaban benar lebih dari satu.)",s:"Cara Berlindung di Dalam Kelas saat Gempa Bumi\n1. Segera menunduk dan menjauh dari jendela kaca serta lemari tinggi.\n2. Berlindunglah di bawah meja yang kokoh sambil melindungi kepala dengan tangan atau tas.\n3. Pegang kaki meja dan bertahan sampai guncangan berhenti.\n4. Setelah guncangan berhenti, keluar kelas secara berbaris melalui tangga.\n5. Berkumpullah di lapangan terbuka, jauh dari bangunan dan tiang listrik.",multi:true,o:["Berlindung di bawah meja yang kokoh sambil melindungi kepala.","Keluar kelas dengan berlari saat guncangan masih terasa.","Mencari tempat berlindung di dekat jendela agar dapat melihat keadaan luar.","Berkumpul di lapangan terbuka yang jauh dari bangunan dan tiang listrik."],a:["A","D"],e:"A dan D adalah syarat keselamatan pada langkah 2 dan 5. B salah karena siswa baru keluar setelah guncangan berhenti. C salah karena langkah 1 meminta siswa menjauh dari jendela kaca.",ind:"Memilih informasi penting dalam prosedur"},
+{t:"Tentukan Benar atau Salah untuk setiap pernyataan berikut berdasarkan teks!",s:"Cara Membuat Kantong Belanja dari Kaus Bekas\nTujuan: Mengurangi pemakaian kantong plastik dengan memanfaatkan kaus bekas.\nAlat dan bahan: kaus bekas, gunting, jarum, dan benang.\nLangkah-langkah:\n1. Potong kedua lengan kaus, lalu lebarkan lubang lehernya dengan gunting.\n2. Balik kaus, kemudian jahit bagian bawahnya dengan jarum dan benang agar tidak ada celah.\n3. Setelah jahitan kuat, balikkan kembali kaus ke sisi luar.\n4. Terakhir, isi kantong dengan barang ringan untuk mengujinya.",tf:["Kalimat “Potong kedua lengan kaus, lalu lebarkan lubang lehernya dengan gunting” merupakan kalimat perintah.","Daftar kaus bekas, gunting, jarum, dan benang merupakan bagian langkah-langkah.","Kata agar pada langkah 2 merupakan konjungsi temporal yang menandai urutan langkah.","Kata Terakhir pada langkah 4 merupakan konjungsi temporal yang menandai langkah paling akhir."],a:["B","S","S","B"],e:"1 benar: Potong diawali kata kerja perintah. 2 salah: daftar tersebut adalah alat dan bahan. 3 salah: agar adalah konjungsi tujuan. 4 benar: Terakhir menandai urutan paling akhir.",ind:"Menganalisis struktur dan kebahasaan teks"},
+{t:"Tentukan Benar atau Salah untuk setiap pernyataan berikut berdasarkan teks!",s:"Cara Membuat Kantong Belanja dari Kaus Bekas\nTujuan: Mengurangi pemakaian kantong plastik dengan memanfaatkan kaus bekas.\nAlat dan bahan: kaus bekas, gunting, jarum, dan benang.\nLangkah-langkah:\n1. Potong kedua lengan kaus, lalu lebarkan lubang lehernya dengan gunting.\n2. Balik kaus, kemudian jahit bagian bawahnya dengan jarum dan benang agar tidak ada celah.\n3. Setelah jahitan kuat, balikkan kembali kaus ke sisi luar.\n4. Terakhir, isi kantong dengan barang ringan untuk mengujinya.",tf:["Bagian bawah kaus dijahit agar kantong terlihat lebih berwarna.","Kaus dijahit dalam keadaan terbalik, lalu dibalikkan kembali ke sisi luar.","Simpulan teks: kantong belanja dibuat dengan memotong lengan kaus, melebarkan lubang leher, menjahit bagian bawah, lalu menguji kekuatannya.","Menurut langkah 4, kantong diuji dengan mengisinya dengan barang yang berat."],a:["S","B","B","S"],e:"1 salah: bagian bawah dijahit agar tidak ada celah. 2 benar: kaus dijahit setelah dibalik, lalu dibalikkan kembali. 3 benar: simpulan sesuai urutan langkah 1–4. 4 salah: kantong diuji dengan barang ringan.",ind:"Menganalisis informasi, urutan, dan simpulan"}
+];
+const KEY="departemen-bahasa-indonesia_ca_v2";let state=null,idx=0,tick=null,violations=[];
+const $=id=>document.getElementById(id);
+function fresh(){return {identity:{name:$("studentName").value.trim(),sid:$("studentId").value.trim(),cls:$("studentClass").value.trim(),school:$("school").value.trim()},start:Date.now(),end:Date.now()+30*60000,answers:{},status:{},opened:{},violations:[],submitted:false};}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function answered(i){let a=state.answers[i];return Q[i].tf?a&&a.length===4&&a.every(x=>x):Q[i].multi?Array.isArray(a)&&a.length>0:!!a}
+function status(i){if(state.status[i]==="doubt")return"doubt";if(answered(i))return"answered";if(state.status[i]==="skipped")return"skipped";return""}
+function counts(){let a=Q.filter((q,i)=>answered(i)).length,d=Q.filter((q,i)=>state.status[i]==="doubt").length,s=Q.filter((q,i)=>state.status[i]==="skipped"&&!answered(i)).length;return {a,d,s,u:20-a}}
+function show(id){["intro","exam","summary","result"].forEach(x=>$(x).classList.toggle("hidden",x!==id));document.body.classList.toggle("exam-active",id==="exam")}
+function start(){let fields=["studentName","studentId","studentClass","school"];if(fields.some(x=>!$(x).value.trim())){alert("Lengkapi semua identitas siswa terlebih dahulu.");return}state=fresh();save();beginExam();if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});}
+function beginExam(){state.violations=state.violations||[];state.tabHiddenAt=null;show("exam");renderNav();renderQ();updateTimer();if(tick)clearInterval(tick);tick=setInterval(updateTimer,500)}
+function renderNav(){$("navgrid").innerHTML=Q.map((q,i)=>`<button class="qnav ${status(i)} ${idx===i?"current":""}" data-i="${i}">${i+1}</button>`).join("");document.querySelectorAll(".qnav").forEach(b=>b.onclick=()=>{idx=+b.dataset.i;renderQ()});let c=counts();$("progressBar").style.width=(c.a/20*100)+"%";$("progressText").textContent=`${c.a} dari 20 soal dijawab`;}
+function renderQ(){let q=Q[idx];state.opened[idx]=true;save();$("qtype").textContent=`QUESTION ${idx+1} OF 20 · ${q.multi?"PILIHAN GANDA KOMPLEKS":q.tf?"BENAR / SALAH":"PILIHAN GANDA"}`;$("stimulus").textContent=q.s||"";$("stimulus").classList.toggle("hidden",!q.s);$("questionText").textContent=q.t;$("statusPill").textContent=state.status[idx]==="doubt"?"RAGU-RAGU":answered(idx)?"TERJAWAB":state.status[idx]==="skipped"?"DILEWATI":"BELUM DIJAWAB";
+if(q.tf){let ans=state.answers[idx]||[];$("answerArea").innerHTML=q.tf.map((st,j)=>`<div class="statement"><p><b>Pernyataan ${j+1}.</b> ${st}</p><div class="tf"><button class="${ans[j]==="B"?"sel": "soft"}" data-j="${j}" data-v="B">Benar</button><button class="${ans[j]==="S"?"sel":"soft"}" data-j="${j}" data-v="S">Salah</button></div></div>`).join("");document.querySelectorAll("#answerArea button").forEach(b=>b.onclick=()=>{let a=state.answers[idx]||["","","",""];a[+b.dataset.j]=b.dataset.v;state.answers[idx]=a;state.status[idx]=state.status[idx]==="doubt"?"doubt":"";save();renderQ();renderNav()});}
+else{$("answerArea").innerHTML=`<div class="options">${q.o.map((op,j)=>{let l="ABCD"[j],sel=q.multi?(state.answers[idx]||[]).includes(l):state.answers[idx]===l;return `<div class="opt ${sel?"selected":""}" data-l="${l}"><span class="letter">${l}</span><span>${op}</span></div>`}).join("")}</div>`;document.querySelectorAll(".opt").forEach(el=>el.onclick=()=>{let l=el.dataset.l;if(q.multi){let a=state.answers[idx]||[];state.answers[idx]=a.includes(l)?a.filter(x=>x!==l):[...a,l].sort()}else state.answers[idx]=l;if(state.status[idx]!=="doubt")state.status[idx]="";save();renderQ();renderNav()});}
+$("prevBtn").disabled=idx===0;$("nextBtn").textContent=idx===19?"Simpan":"Simpan & Berikutnya →";renderNav();}
+function updateTimer(){if(!state||state.submitted)return;let left=Math.max(0,state.end-Date.now()),sec=Math.ceil(left/1000),m=String(Math.floor(sec/60)).padStart(2,"0"),s=String(sec%60).padStart(2,"0");$("timer").textContent=m+":"+s;$("timer").className="timer"+(sec<=300?" urgent":sec<=600?" low":"");if(left<=0){clearInterval(tick);submit(true)}}
+function finishSummary(){let c=counts();$("summaryStats").innerHTML=[["Terjawab",c.a],["Belum dijawab",c.u],["Ragu-ragu",c.d],["Dilewati",c.s]].map(x=>`<div class="stat"><span class="small">${x[0]}</span><b>${x[1]}</b></div>`).join("");show("summary")}
+function submit(auto=false){if(!auto&&!confirm("Kumpulkan asesmen sekarang? Jawaban tidak dapat diubah setelah dikirim."))return;state.submitted=true;state.submitTime=Date.now();save();clearInterval(tick);if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});calculate();show("result")}
+function same(a,b){return JSON.stringify([...(a||[])].sort())===JSON.stringify([...(b||[])].sort())}
+function calculate(){let points=0,correct=0,wrong=0,blank=0;Q.forEach((q,i)=>{let a=state.answers[i],ok=false;if(q.tf){let got=a||[];let n=0;for(let j=0;j<4;j++)if(got[j]===q.a[j])n++;points+=n/4;ok=n===4;if(!answered(i))blank++;else if(!ok)wrong++;}else{ok=q.multi?same(a,q.a):a===q.a;if(ok)points++;if(!answered(i))blank++;else if(!ok)wrong++;}if(ok)correct++});let score=Math.round(points/20*100);$("score").textContent=score;$("scoreBar").style.width=score+"%";$("resultIdentity").textContent=`${state.identity.name} · ${state.identity.sid} · ${state.identity.cls} · ${state.identity.school}`;$("resultStats").innerHTML=[["Jawaban benar",correct],["Jawaban salah",wrong],["Tidak dijawab",blank],["Skor",points.toFixed(2)+" / 20"]].map(x=>`<div class="stat"><span class="small">${x[0]}</span><b>${x[1]}</b></div>`).join("");$("durationText").textContent=`Waktu pengerjaan: ${formatTime(Math.min(30*60000,(state.submitTime||Date.now())-state.start))} · ${new Date(state.start).toLocaleString("id-ID")}`;
+$("reviewList").innerHTML=Q.map((q,i)=>{let a=state.answers[i],ok=q.tf?(a||[]).every((x,j)=>x===q.a[j])&&!!a&&a.length===4:q.multi?same(a,q.a):a===q.a;let user=q.tf?(a||[]).map((x,j)=>`${j+1}. ${x==="B"?"Benar":x==="S"?"Salah":"Belum dijawab"}`).join("<br>"):q.multi?(a||[]).join(", ")||"Belum dijawab":a||"Belum dijawab";let key=q.tf?q.a.map((x,j)=>`${j+1}. ${x==="B"?"Benar":"Salah"}`).join("<br>"):q.a instanceof Array?q.a.join(", "):q.a;return `<article class="reviewitem"><b>Nomor ${i+1} · <span class="${ok?"correct":"incorrect"}">${ok?"Benar":"Perlu diperbaiki"}</span></b><p>${q.t}</p><p class="small"><b>Jawaban siswa:</b><br>${user}<br><b>Kunci jawaban:</b><br>${key}</p><p>${q.e}</p></article>`}).join("");
+let inds={};Q.forEach((q,i)=>{let ok=q.tf?(state.answers[i]||[]).every((x,j)=>x===q.a[j])&&state.answers[i]?.length===4:q.multi?same(state.answers[i],q.a):state.answers[i]===q.a;inds[q.ind]=(inds[q.ind]||{n:0,ok:0});inds[q.ind].n++;if(ok)inds[q.ind].ok++});$("insights").innerHTML=Object.entries(inds).map(([k,v])=>`<p><b>${k}</b> <span class="small">(${v.ok}/${v.n} butir tepat)</span></p><div class="bar"><i style="width:${v.ok/v.n*100}%"></i></div>`).join("")+`<p class="small">Gunakan hasil ini sebagai indikasi kemampuan. Beberapa indikator hanya diwakili satu butir soal sehingga belum cukup untuk menyimpulkan penguasaan secara menyeluruh.</p>`;
+const hiddenEvents=state.violations.filter(v=>v.type==="tab_hidden"),fsEvents=state.violations.filter(v=>v.type==="fullscreen_exit"),returns=state.violations.filter(v=>v.type==="tab_return");$("integrityReport").innerHTML=`<p>Perpindahan tab/halaman (keluar dari tab): <b>${hiddenEvents.length}</b></p><p>Kembali ke halaman ujian: <b>${returns.length}</b></p><p>Keluar fullscreen: <b>${fsEvents.length}</b></p><p>Total kejadian tercatat: <b>${state.violations.length}</b></p>`+(state.violations.length?state.violations.map(v=>`<p class="small">${v.at||"Waktu tidak tersedia"} · ${v.type==="tab_hidden"?"Tab/halaman ditinggalkan":v.type==="tab_return"?"Kembali ke halaman ujian (durasi di luar tab: "+elapsedLabel(v.durationMs)+")":"Keluar fullscreen"} · waktu ujian berjalan ${elapsedLabel(v.elapsed)}</p>`).join(""):"<p class='small'>Tidak ada pelanggaran browser yang tercatat.</p>");}
+function formatTime(ms){let s=Math.floor(ms/1000);return `${Math.floor(s/60)} menit ${s%60} detik`}
+function elapsedLabel(ms){if(!Number.isFinite(ms)||ms<0)return"belum diketahui";let sec=Math.floor(ms/1000);return `${Math.floor(sec/60)} menit ${sec%60} detik`}
+function refreshViolationCount(){if($("violationCount"))$("violationCount").textContent=state.violations.length+" kejadian tercatat"}
+function logViolation(type,extra={}){if(!state||state.submitted)return;const now=Date.now();state.violations.push({type,ts:now,at:new Date(now).toLocaleString("id-ID"),elapsed:now-state.start,...extra});save();refreshViolationCount();const n=state.violations.length;if($("integrityLive"))$("integrityLive").textContent=`Peringatan ${n}: aktivitas keluar dari layar ujian tercatat.`;if(n<=3)alert(`Peringatan ${n}: aktivitas meninggalkan layar ujian terdeteksi dan waktu kejadiannya dicatat.`);}
+function handleVisibility(){if(!state||state.submitted)return;if(document.hidden){if(state.tabHiddenAt==null){state.tabHiddenAt=Date.now();logViolation("tab_hidden");}}else if(state.tabHiddenAt!=null){const returned=Date.now(),duration=returned-state.tabHiddenAt;state.violations.push({type:"tab_return",ts:returned,at:new Date(returned).toLocaleString("id-ID"),elapsed:returned-state.start,durationMs:duration});state.tabHiddenAt=null;save();refreshViolationCount();if($("integrityLive"))$("integrityLive").textContent=`Kembali ke ujian. Tab berada di luar layar selama ${elapsedLabel(duration)}.`;}}
+function handleFullscreen(){if(state&&!state.submitted&&!document.fullscreenElement){logViolation("fullscreen_exit");}}
+$("startBtn").onclick=start;$("prevBtn").onclick=()=>{if(idx>0){idx--;renderQ()}};$("nextBtn").onclick=()=>{if(idx<19){idx++;renderQ()}else finishSummary()};$("doubtBtn").onclick=()=>{state.status[idx]=state.status[idx]==="doubt"?"": "doubt";save();renderQ();renderNav()};$("skipBtn").onclick=()=>{state.status[idx]="skipped";save();if(idx<19)idx++;renderQ()};$("clearBtn").onclick=()=>{delete state.answers[idx];delete state.status[idx];save();renderQ();renderNav()};$("finishBtn").onclick=finishSummary;$("backBtn").onclick=()=>{show("exam");renderQ()};$("submitBtn").onclick=()=>submit(false);$("downloadBtn").onclick=()=>window.print();$("restartBtn").onclick=()=>{if(confirm("Hapus sesi ini dan mulai dari awal?")){localStorage.removeItem(KEY);location.reload()}};
+document.addEventListener("visibilitychange",handleVisibility);document.addEventListener("fullscreenchange",handleFullscreen);document.addEventListener("contextmenu",e=>{if(state&&!state.submitted)e.preventDefault()});document.addEventListener("keydown",e=>{if(state&&!state.submitted&&(e.ctrlKey||e.metaKey)&&["c","x","v","a","p","s"].includes(e.key.toLowerCase()))e.preventDefault()});
+let saved=load();if(saved&&!saved.submitted){state=saved;$("studentName").value=state.identity.name;$("studentId").value=state.identity.sid;$("studentClass").value=state.identity.cls;$("school").value=state.identity.school;if(state.end>Date.now()){beginExam()}else submit(true)}else if(saved&&saved.submitted){state=saved;calculate();show("result")}
+</script></body></html>
